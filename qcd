@@ -6,9 +6,25 @@ QCD_CONFIG_DIR=${QCD_CONFIG_DIR:-"${XDG_CONFIG_HOME}/qcd"}
 QCD_DATABASE_FILE=${QCD_DATABASE_FILE:-"${QCD_CONFIG_DIR}/database"}
 
 
+function print_usage () {
+		cat 1>&2 <<__EOF__
+Usage:
+	qcd SHORTCUT
+	qcd -acrh SHORTCUT [PATH]
+
+	The first call changes to the directory specified by SHORTCUT.
+	The second allows manipulation of the shortcut database.
+
+	-a	Add a new shortcut pointing to PATH
+	-c	Change an existing shortcut to PATH
+	-r	Remove SHORTCUT
+	-h	Display this help
+__EOF__
+}
+
 function qcd () {
 	if [[ $# < 1 ]]; then
-		echo 'Usage: qcd SHORTCUT' 1>&2
+		print_usage
 		return
 	fi
 
