@@ -1,0 +1,17 @@
+# Bash completion for the qcd() function
+
+_qcd () {
+	local cur
+	local commands=(
+		shortcut
+	)
+
+	COMPREPLY=()
+	cur=${COMP_WORDS[COMP_CWORD]}
+
+	COMPREPLY=( $( compgen -W "${commands[*]}" -- $cur ) )
+
+	return 0
+}
+
+complete -F _qcd qcd

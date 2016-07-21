@@ -1,0 +1,17 @@
+# qcd
+# Quickly `cd` into some frequently accessed project directories
+
+function qcd () {
+	if [[ $# < 1 ]]; then
+		echo 'Usage: qcd SHORTCUT' 1>&2
+		return
+	fi
+
+	local command=$1
+
+	case $command in
+		shortcut)
+			cd ${HOME}/path
+			;;
+	esac
+}
