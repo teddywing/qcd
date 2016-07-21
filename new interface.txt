@@ -1,0 +1,30 @@
+qcd SHORTCUT PATH
+
+qcd -a SHORTCUT PATH
+
+-a: add
+	So we can still do `qcd shortcut` to `cd`
+
+	PATH expands to an absolute directory before saving
+
+
+shortcut	/Absolute/path/to/directory
+shortcut	/Absolute/path/to/directory
+shortcut	/Absolute/path/to/directory
+shortcut	/Absolute/path/to/directory
+shortcut	/Absolute/path/to/directory
+
+
+Go to:
+	Search for shortcut, get column 2, cd to it
+
+Remove shortcut:
+	qcd -r SHORTCUT
+
+	Search for shortcut, remove that line
+	--How to remove the line?
+
+Change shortcut:
+	qcd -c SHORTCUT PATH
+
+	Use sed?
