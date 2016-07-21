@@ -39,7 +39,6 @@ function qcd () {
 			;;
 		-h|--help)
 			print_usage
-			return
 			;;
 		*)
 			;;
