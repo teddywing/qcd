@@ -31,8 +31,17 @@ function qcd () {
 	local command=$1
 
 	case $command in
-		shortcut)
-			cd ${HOME}/path
+		-a)
+			;;
+		-c)
+			;;
+		-r)
+			;;
+		-h|--help)
+			print_usage
+			return
+			;;
+		*)
 			;;
 	esac
 }
