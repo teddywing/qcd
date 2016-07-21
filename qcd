@@ -22,6 +22,10 @@ Usage:
 __EOF__
 }
 
+function setup () {
+	mkdir -p $QCD_CONFIG_DIR
+}
+
 function absolute_path () {
 	(cd "$(dirname '$1')" &>/dev/null && printf "%s/%s" "$PWD" "${1##*/}")
 }
@@ -31,6 +35,8 @@ function qcd () {
 		print_usage
 		return
 	fi
+
+	# setup
 
 	local command=$1
 
