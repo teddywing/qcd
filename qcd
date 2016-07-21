@@ -1,6 +1,11 @@
 # qcd
 # Quickly `cd` into some frequently accessed project directories
 
+XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-"${HOME}/.config"}
+QCD_CONFIG_DIR=${QCD_CONFIG_DIR:-"${XDG_CONFIG_HOME}/qcd"}
+QCD_DATABASE_FILE=${QCD_DATABASE_FILE:-"${QCD_CONFIG_DIR}/database"}
+
+
 function qcd () {
 	if [[ $# < 1 ]]; then
 		echo 'Usage: qcd SHORTCUT' 1>&2
