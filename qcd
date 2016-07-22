@@ -52,6 +52,8 @@ function change_shortcut () {
 
 	if shortcut_exists $shortcut; then
 		path=$(absolute_path "$path")
+
+		# The `//\//\/` escapes slashes in the path so that `sed` doesn't complain
 		sed -i.bak -E "s/^${shortcut}	.+$/${shortcut}	${path//\//\/}/" $QCD_DATABASE_FILE
 	fi
 }
