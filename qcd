@@ -63,6 +63,15 @@ function remove_shortcut () {
 	fi
 }
 
+function change_directory () {
+	local shortcut=$1
+
+	cd $(awk -v shortcut="$shortcut" '{
+		if ($1 == shortcut)
+			{ print $2 }
+	}' $QCD_DATABASE_FILE)
+}
+
 function qcd () {
 	if [[ $# < 1 ]]; then
 		print_usage
@@ -89,6 +98,7 @@ function qcd () {
 			print_usage
 			;;
 		*)
+			change_directory $command
 			;;
 	esac
 }
