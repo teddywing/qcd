@@ -56,6 +56,13 @@ function qcd () {
 			fi
 			;;
 		-c)
+			local shortcut=$2
+			local path=$3
+
+			if shortcut_exists $shortcut; then
+				path=$(absolute_path $path)
+				sed -i.bak -E "s/^${shortcut}	.+$/${shortcut}	${path//\//\/}/" $QCD_DATABASE_FILE
+			fi
 			;;
 		-r)
 			;;
