@@ -55,6 +55,14 @@ function change_shortcut () {
 	fi
 }
 
+function remove_shortcut () {
+	local shortcut=$1
+
+	if shortcut_exists $shortcut; then
+		sed -i.bak -E "/^${shortcut}	.+/d" $QCD_DATABASE_FILE
+	fi
+}
+
 function qcd () {
 	if [[ $# < 1 ]]; then
 		print_usage
@@ -75,6 +83,7 @@ function qcd () {
 			change_shortcut $shortcut $path
 			;;
 		-r)
+			remove_shortcut $shortcut
 			;;
 		-h|--help)
 			print_usage
