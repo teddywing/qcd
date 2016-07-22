@@ -24,6 +24,7 @@ __EOF__
 
 function setup () {
 	mkdir -p $QCD_CONFIG_DIR
+	touch $QCD_DATABASE_FILE
 }
 
 function absolute_path () {
@@ -85,7 +86,7 @@ function qcd () {
 		return
 	fi
 
-	# setup
+	setup
 
 	local command=$1
 	local shortcut=$2
