@@ -1,6 +1,10 @@
 # qcd
 # Quickly `cd` into some frequently accessed project directories
 
+# Copyright © 2016 Teddy Wing
+# This file is licensed under the GNU GPLv3+. Please see COPYING
+# for more information.
+
 XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-"${HOME}/.config"}
 QCD_CONFIG_DIR=${QCD_CONFIG_DIR:-"${XDG_CONFIG_HOME}/qcd"}
 QCD_DATABASE_FILE=${QCD_DATABASE_FILE:-"${QCD_CONFIG_DIR}/database"}

@@ -1,5 +1,9 @@
 # Bash completion for the qcd() function
 
+# Copyright © 2016 Teddy Wing
+# This file is licensed under the GNU GPLv3+. Please see COPYING
+# for more information.
+
 _qcd () {
 	local cur
 	local shortcuts=$(awk '{ print $1 }' $QCD_DATABASE_FILE)
