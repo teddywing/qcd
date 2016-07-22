@@ -35,6 +35,26 @@ function shortcut_exists () {
 	return $(awk '{ print $1 }' $QCD_DATABASE_FILE | grep "^${shortcut}$" >/dev/null 2>&1; echo $?)
 }
 
+function add_shortcut () {
+	local shortcut=$1
+	local path=$2
+
+	# Don't add the shortcut if it already exists
+	if ! shortcut_exists $shortcut; then
+		echo "${shortcut}	$(absolute_path ${path})" >> $QCD_DATABASE_FILE
+	fi
+}
+
+function change_shortcut () {
+	local shortcut=$1
+	local path=$2
+
+	if shortcut_exists $shortcut; then
+		path=$(absolute_path $path)
+		sed -i.bak -E "s/^${shortcut}	.+$/${shortcut}	${path//\//\/}/" $QCD_DATABASE_FILE
+	fi
+}
+
 function qcd () {
 	if [[ $# < 1 ]]; then
 		print_usage
@@ -44,25 +64,15 @@ function qcd () {
 	# setup
 
 	local command=$1
+	local shortcut=$2
+	local path=$3
 
 	case $command in
 		-a)
-			local shortcut=$2
-			local path=$3
-
-			# Don't add the shortcut if it already exists
-			if ! shortcut_exists $shortcut; then
-				echo "${shortcut}	$(absolute_path ${path})" >> $QCD_DATABASE_FILE
-			fi
+			add_shortcut $shortcut $path
 			;;
 		-c)
-			local shortcut=$2
-			local path=$3
-
-			if shortcut_exists $shortcut; then
-				path=$(absolute_path $path)
-				sed -i.bak -E "s/^${shortcut}	.+$/${shortcut}	${path//\//\/}/" $QCD_DATABASE_FILE
-			fi
+			change_shortcut $shortcut $path
 			;;
 		-r)
 			;;
