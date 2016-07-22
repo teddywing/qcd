@@ -27,7 +27,7 @@ function setup () {
 }
 
 function absolute_path () {
-	(cd "$(dirname '$1')" &>/dev/null && printf "%s/%s" "$PWD" "${1##*/}")
+	(cd "$(dirname "$1")" && printf "%s/%s\n" "$(pwd)" "$(basename "$1")")
 }
 
 function shortcut_exists () {
