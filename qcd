@@ -68,10 +68,12 @@ function change_directory () {
 	local shortcut=$1
 
 	if shortcut_exists $shortcut; then
-		cd $(awk -v shortcut="$shortcut" '{
+		local directory=$(awk -v shortcut="$shortcut" '{
 			if ($1 == shortcut)
-				{ print $2 }
+				{ sub(/[[:space:]]*([^[:space:]]+[[:space:]]+)/,""); print }
 		}' $QCD_DATABASE_FILE)
+
+		cd "$directory"
 	fi
 }
 
