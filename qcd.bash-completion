@@ -1,17 +1,26 @@
 # Bash completion for the qcd() function
 
+XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-"${HOME}/.config"}
+QCD_CONFIG_DIR=${QCD_CONFIG_DIR:-"${XDG_CONFIG_HOME}/qcd"}
+QCD_DATABASE_FILE=${QCD_DATABASE_FILE:-"${QCD_CONFIG_DIR}/database"}
+
 _qcd () {
 	local cur
-	local commands=(
-		shortcut
-	)
+	local shortcuts=$(awk '{ print $1 }' $QCD_DATABASE_FILE)
 
 	COMPREPLY=()
 	cur=${COMP_WORDS[COMP_CWORD]}
 
-	COMPREPLY=( $( compgen -W "${commands[*]}" -- $cur ) )
+	case "$COMP_CWORD" in
+		1|2)
+			COMPREPLY=( $( compgen -W "$shortcuts" -- $cur ) )
+			;;
+		3)
+			COMPREPLY=()
+			;;
+	esac
 
 	return 0
 }
 
-complete -F _qcd qcd
+complete -o default -F _qcd qcd
