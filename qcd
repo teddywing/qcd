@@ -30,6 +30,11 @@ function absolute_path () {
 	(cd "$(dirname '$1')" &>/dev/null && printf "%s/%s" "$PWD" "${1##*/}")
 }
 
+function find_shortcut () {
+	local shortcut=$1
+	return $(awk '{ print $1 }' $QCD_DATABASE_FILE | grep "^${shortcut}$" >/dev/null 2>&1; echo $?)
+}
+
 function qcd () {
 	if [[ $# < 1 ]]; then
 		print_usage
@@ -45,7 +50,10 @@ function qcd () {
 			local shortcut=$2
 			local path=$3
 
-			echo "${shortcut}	$(absolute_path ${path})" >> $QCD_DATABASE_FILE
+			# Don't add the shortcut if it already exists
+			if ! find_shortcut $shortcut; then
+				echo "${shortcut}	$(absolute_path ${path})" >> $QCD_DATABASE_FILE
+			fi
 			;;
 		-c)
 			;;
