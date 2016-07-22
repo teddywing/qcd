@@ -41,7 +41,8 @@ function add_shortcut () {
 
 	# Don't add the shortcut if it already exists
 	if ! shortcut_exists $shortcut; then
-		echo "${shortcut}	$(absolute_path ${path})" >> $QCD_DATABASE_FILE
+		path=$(absolute_path "$path")
+		echo "${shortcut}	${path}" >> $QCD_DATABASE_FILE
 	fi
 }
 
@@ -50,7 +51,7 @@ function change_shortcut () {
 	local path=$2
 
 	if shortcut_exists $shortcut; then
-		path=$(absolute_path $path)
+		path=$(absolute_path "$path")
 		sed -i.bak -E "s/^${shortcut}	.+$/${shortcut}	${path//\//\/}/" $QCD_DATABASE_FILE
 	fi
 }
@@ -88,10 +89,10 @@ function qcd () {
 
 	case $command in
 		-a)
-			add_shortcut $shortcut $path
+			add_shortcut $shortcut "$path"
 			;;
 		-c)
-			change_shortcut $shortcut $path
+			change_shortcut $shortcut "$path"
 			;;
 		-r)
 			remove_shortcut $shortcut
