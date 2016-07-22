@@ -66,10 +66,12 @@ function remove_shortcut () {
 function change_directory () {
 	local shortcut=$1
 
-	cd $(awk -v shortcut="$shortcut" '{
-		if ($1 == shortcut)
-			{ print $2 }
-	}' $QCD_DATABASE_FILE)
+	if shortcut_exists $shortcut; then
+		cd $(awk -v shortcut="$shortcut" '{
+			if ($1 == shortcut)
+				{ print $2 }
+		}' $QCD_DATABASE_FILE)
+	fi
 }
 
 function qcd () {
