@@ -29,7 +29,11 @@ A Bash utility that enables quick `cd`s using shortcuts.
 
 
 ## Install
-Grab the code and add the following lines to your Bash profile:
+Mac OS X users can install `qcd` with Homebrew:
+
+	$ brew install https://raw.githubusercontent.com/teddywing/qcd/master/Homebrew/qcd.rb
+
+On other platforms, grab the code and add the following lines to your Bash profile:
 
 	source ~/path/to/qcd
 	source ~/path/to/qcd.bash-completion
