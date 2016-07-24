@@ -10,7 +10,7 @@ QCD_CONFIG_DIR=${QCD_CONFIG_DIR:-"${XDG_CONFIG_HOME}/qcd"}
 QCD_DATABASE_FILE=${QCD_DATABASE_FILE:-"${QCD_CONFIG_DIR}/database"}
 
 
-function print_usage () {
+function __qcd_print_usage () {
 		cat 1>&2 <<__EOF__
 Usage:
 	qcd SHORTCUT
@@ -26,55 +26,55 @@ Usage:
 __EOF__
 }
 
-function setup () {
+function __qcd_setup () {
 	mkdir -p $QCD_CONFIG_DIR
 	touch $QCD_DATABASE_FILE
 }
 
-function absolute_path () {
+function __qcd_absolute_path () {
 	(cd "$(dirname "$1")" && printf "%s/%s\n" "$(pwd)" "$(basename "$1")")
 }
 
-function shortcut_exists () {
+function __qcd_shortcut_exists () {
 	local shortcut=$1
 	return $(awk '{ print $1 }' $QCD_DATABASE_FILE | grep "^${shortcut}$" >/dev/null 2>&1; echo $?)
 }
 
-function add_shortcut () {
+function __qcd_add_shortcut () {
 	local shortcut=$1
 	local path=$2
 
 	# Don't add the shortcut if it already exists
-	if ! shortcut_exists $shortcut; then
-		path=$(absolute_path "$path")
+	if ! __qcd_shortcut_exists $shortcut; then
+		path=$(__qcd_absolute_path "$path")
 		echo "${shortcut}	${path}" >> $QCD_DATABASE_FILE
 	fi
 }
 
-function change_shortcut () {
+function __qcd_change_shortcut () {
 	local shortcut=$1
 	local path=$2
 
-	if shortcut_exists $shortcut; then
-		path=$(absolute_path "$path")
+	if __qcd_shortcut_exists $shortcut; then
+		path=$(__qcd_absolute_path "$path")
 
 		# The `//\//\/` escapes slashes in the path so that `sed` doesn't complain
 		sed -i.bak -E "s/^${shortcut}	.+$/${shortcut}	${path//\//\/}/" $QCD_DATABASE_FILE
 	fi
 }
 
-function remove_shortcut () {
+function __qcd_remove_shortcut () {
 	local shortcut=$1
 
-	if shortcut_exists $shortcut; then
+	if __qcd_shortcut_exists $shortcut; then
 		sed -i.bak -E "/^${shortcut}	.+/d" $QCD_DATABASE_FILE
 	fi
 }
 
-function change_directory () {
+function __qcd_change_directory () {
 	local shortcut=$1
 
-	if shortcut_exists $shortcut; then
+	if __qcd_shortcut_exists $shortcut; then
 		local directory=$(awk -v shortcut="$shortcut" '{
 			if ($1 == shortcut)
 				{ sub(/[[:space:]]*([^[:space:]]+[[:space:]]+)/,""); print }
@@ -86,11 +86,11 @@ function change_directory () {
 
 function qcd () {
 	if [[ $# < 1 ]]; then
-		print_usage
+		__qcd_print_usage
 		return
 	fi
 
-	setup
+	__qcd_setup
 
 	local command=$1
 	local shortcut=$2
@@ -98,19 +98,19 @@ function qcd () {
 
 	case $command in
 		-a)
-			add_shortcut $shortcut "$path"
+			__qcd_add_shortcut $shortcut "$path"
 			;;
 		-c)
-			change_shortcut $shortcut "$path"
+			__qcd_change_shortcut $shortcut "$path"
 			;;
 		-r)
-			remove_shortcut $shortcut
+			__qcd_remove_shortcut $shortcut
 			;;
 		-h|--help)
-			print_usage
+			__qcd_print_usage
 			;;
 		*)
-			change_directory $command
+			__qcd_change_directory $command
 			;;
 	esac
 }
