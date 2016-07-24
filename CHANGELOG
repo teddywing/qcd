@@ -1,0 +1,14 @@
+CHANGELOG
+=========
+
+v0.1.1 (2016-07-24):
+	* Attenuate pollution of the command namespace from `qcd`'s helper functions
+	  by prefixing them with `__qcd_`.
+
+v0.1.0 (2016-07-22):
+	* Initial public release. Shortcuts can be added, changed, and removed using
+	  the command instead of having to manually edit the script.
+
+v0.0.1 (2016-07-02):
+	* Initial private version. Shortcuts are defined manually in a Bash `case`
+	  statement.
