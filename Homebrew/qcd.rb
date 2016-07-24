@@ -1,8 +1,8 @@
 class Qcd < Formula
   desc "Define shortcuts to directories for quick `cd`s"
   homepage "https://github.com/teddywing/qcd"
-  url "https://github.com/teddywing/qcd/archive/v0.1.0.tar.gz"
-  sha256 "c4bd0541dd1e852a50589012d73eacb86c394d18ccfe876571695bcdba0c82ae"
+  url "https://github.com/teddywing/qcd/archive/v0.1.1.tar.gz"
+  sha256 "780ed36d78e4e9d4b93d5127e764310e360fc7552b59b3b0e3876d5740f28779"
 
   def install
     prefix.install "qcd"
