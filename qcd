@@ -14,7 +14,7 @@ function __qcd_print_usage () {
 		cat 1>&2 <<__EOF__
 Usage:
 	qcd SHORTCUT
-	qcd -acrh SHORTCUT [PATH]
+	qcd -acrlh SHORTCUT [PATH]
 
 	The first call changes to the directory specified by SHORTCUT.
 	The second allows manipulation of the shortcut database.
@@ -22,6 +22,7 @@ Usage:
 	-a	Add a new shortcut pointing to PATH
 	-c	Change an existing shortcut to PATH
 	-r	Remove SHORTCUT
+	-l	List shortcuts
 	-h	Display this help
 __EOF__
 }
@@ -71,6 +72,10 @@ function __qcd_remove_shortcut () {
 	fi
 }
 
+function __qcd_list_shortcuts () {
+	column -t -s '	' $QCD_DATABASE_FILE | sort
+}
+
 function __qcd_change_directory () {
 	local shortcut=$1
 
@@ -105,6 +110,9 @@ function qcd () {
 			;;
 		-r)
 			__qcd_remove_shortcut $shortcut
+			;;
+		-l)
+			__qcd_list_shortcuts
 			;;
 		-h|--help)
 			__qcd_print_usage
