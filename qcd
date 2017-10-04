@@ -61,7 +61,7 @@ function __qcd_change_shortcut () {
 
 		cp $QCD_DATABASE_FILE "${QCD_DATABASE_FILE}.bak"
 
-		# The `//\//\/` escapes slashes in the path so that `sed` doesn't complain
+		# The `//\//\\/` escapes slashes in the path so that `sed` doesn't complain
 		sed -E "s/^${shortcut}	.+$/${shortcut}	${path//\//\\/}/" \
 			< "${QCD_DATABASE_FILE}.bak" \
 			> $QCD_DATABASE_FILE
