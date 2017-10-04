@@ -59,8 +59,12 @@ function __qcd_change_shortcut () {
 	if __qcd_shortcut_exists $shortcut; then
 		path=$(__qcd_absolute_path "$path")
 
+		cp $QCD_DATABASE_FILE "${QCD_DATABASE_FILE}.bak"
+
 		# The `//\//\/` escapes slashes in the path so that `sed` doesn't complain
-		sed -i.bak -E "s/^${shortcut}	.+$/${shortcut}	${path//\//\\/}/" $QCD_DATABASE_FILE
+		sed -E "s/^${shortcut}	.+$/${shortcut}	${path//\//\\/}/" \
+			< "${QCD_DATABASE_FILE}.bak" \
+			> $QCD_DATABASE_FILE
 	fi
 }
 
@@ -68,7 +72,8 @@ function __qcd_remove_shortcut () {
 	local shortcut=$1
 
 	if __qcd_shortcut_exists $shortcut; then
-		sed -i.bak -E "/^${shortcut}	.+/d" $QCD_DATABASE_FILE
+		cp $QCD_DATABASE_FILE "${QCD_DATABASE_FILE}.bak"
+		sed -E "/^${shortcut}	.+/d" < "${QCD_DATABASE_FILE}.bak" > $QCD_DATABASE_FILE
 	fi
 }
 
