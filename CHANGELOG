@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+v0.2.1 (2017-10-04):
+	* Fix 'change' command substitution bug in Bash 4
+	* Allow the database file to be symlinked
+
 v0.2.0 (2016-12-03):
 	* Add `-l` flag to list shortcuts.
 
